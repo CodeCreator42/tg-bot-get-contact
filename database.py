@@ -13,21 +13,18 @@ class Database:
                 username TEXT,
                 first_name TEXT,
                 last_name TEXT,
-                phone_number TEXT
+                phone_number TEXT,
+                vpn_period TEXT
             )
         ''')
         self.conn.commit()
 
-    def add_user(self, user_id, username, first_name, last_name, phone_number):
+    def add_user(self, user_id, username, first_name, last_name, phone_number, vpn_period=None):
         self.cursor.execute('''
-            INSERT OR REPLACE INTO users (id, username, first_name, last_name, phone_number)
-            VALUES (?, ?, ?, ?, ?)
-        ''', (user_id, username, first_name, last_name, phone_number))
+            INSERT OR REPLACE INTO users (id, username, first_name, last_name, phone_number, vpn_period)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (user_id, username, first_name, last_name, phone_number, vpn_period))
         self.conn.commit()
-
-    def get_user(self, user_id):
-        self.cursor.execute('SELECT * FROM users WHERE id = ?', (user_id,))
-        return self.cursor.fetchone()
 
     def close(self):
         self.conn.close()
